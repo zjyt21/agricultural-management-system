@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/market-trend")
-public class MarketTrendController {
+public class MarketTrendController {//
     @Autowired
     private IMarketTrendService iMarketTrendService;
 
