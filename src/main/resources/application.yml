@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/smart_farming
+      username: root
+      password: hlproot
+
+server:
+  port: 9999
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml #Scan all mybatis xml files
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
