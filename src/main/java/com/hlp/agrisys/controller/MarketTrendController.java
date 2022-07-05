@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/market-trend")
-public class MarketTrendController {//
+public class MarketTrendController {
     @Autowired
     private IMarketTrendService iMarketTrendService;
 
@@ -36,14 +36,6 @@ public class MarketTrendController {//
     public List<MarketTrend> listMarketTrends(){
         return iMarketTrendService.list();
     }
-
-//    //Get market information of specified crop
-//    @GetMapping
-//    public List<MarketTrend> listMarketTrendsByCrop(){
-//        LambdaQueryWrapper<MarketTrend> lqw = new LambdaQueryWrapper<>();
-//
-//        return iMarketTrendService.list();
-//    }
 
     //Save or update market information
     @PostMapping

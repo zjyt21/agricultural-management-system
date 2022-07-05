@@ -1,14 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Container from '../views/Container.vue'
+import Market from '../views/Market.vue'
+import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    component: Container,
+    redirect:"/home",
+    children:[
+      {
+        path: 'home',
+        name: 'Home',
+        component: Home,
+      },
+      {
+        path: 'market',
+        name: 'Market',
+        component: Market,
+      },
+    ]
   },
 ]
 
