@@ -13,7 +13,7 @@
       <b>Farmer Centre</b>
     </div>
     <el-menu-item index="/">
-      <i class="el-icon-school"></i>
+      <i class="el-icon-house"></i>
       <template slot="title">
         <span>Home</span>
       </template>

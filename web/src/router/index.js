@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Container from '../views/Container.vue'
 import Market from '../views/Market.vue'
 import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,12 @@ const routes = [
         component: Market,
       },
     ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    
   },
 ]
 
