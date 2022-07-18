@@ -11,6 +11,8 @@ import com.hlp.agrisys.service.IMarketTrendService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * <p>
  * service implementation class

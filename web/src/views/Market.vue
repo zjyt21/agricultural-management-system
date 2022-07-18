@@ -1,8 +1,18 @@
 <template>
   <div>
-    <div style="margin-bottom: 30px;">
+    <!-- <div style="margin-bottom: 30px;">
       
-    </div>
+    </div> -->
+
+    <el-row :gutter="10" style="margin-bottom: 40px;">
+      <el-col :span="2"></el-col>
+      <el-col :span="11">
+        <el-card id="price" style="height: 400px;"></el-card>
+      </el-col>
+      <el-col :span="11">
+          <div id="trend" style="height: 400px;"></div>
+      </el-col>
+    </el-row>
 
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item prop="crop">
@@ -146,6 +156,7 @@
 </template>
 
 <script>
+  import * as echarts from 'echarts'; 
   export default {
     name:"Market",
     data() {
@@ -225,6 +236,7 @@
               this.currentPage = maxPage
               console.log('currentPage' + this.currentPage)
             }
+            this.getChart(res)
           })
       },
       handleSizeChange(pageSize){
@@ -297,6 +309,96 @@
       formCancel(){
         this.dialogFormVisible = false
         this.$message.warning("Form submission canceled")
+      },
+      getChart(res) {
+        var priceChartDom = document.getElementById('price');
+        var priceChart = echarts.init(priceChartDom);
+
+        var priceOption = {
+          title: {
+            text: 'Unit Price',
+            left: 'center'
+          },
+          // grid:{x:'12%',y:'12%',x2:'12%',y2:'12%'},
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'cross'
+            }
+          },
+          legend: {
+            orient: 'horizontal',
+            x: 'center',
+            y: 'bottom'
+          },
+           grid: {
+                left: '3%',
+                right: '7%',
+                top:'15%',
+                bottom: '12%',
+                containLabel: true
+            },
+          toolbox: {
+              show: true,
+              //toolbox的配置项
+              feature: {
+                  //辅助线的开关
+                  mark: { show: true },
+                  //数据视图
+                  dataView: {
+                      show: true,
+                      readOnly: false
+                  },
+                  //动态类型切换
+                  magicType: {
+                      show: true,
+                      //line为折线图，bar为柱状图
+                      type: ['line', 'bar']
+                  },
+                  //配置项还原
+                  restore: { show: true },
+                  //将图标保存为图片
+                  saveAsImage: { show: true }
+              }
+          },
+          calculable: true,
+          xAxis: {
+            name: 'Date',
+            type: 'category',
+            //数值起始和结束两端空白策略
+            boundaryGap: false,
+            data: []
+          },
+          yAxis: {
+            name: 'Price',
+            type: 'value',        
+            // interval: 300,
+            // min: 3300,
+            // max: 4500,
+          },
+          series: [
+            { name: 'paddy', data: [], type: 'line'},
+            { name: 'potato', data: [], type: 'line'},
+            { name: 'soybean', data: [], type: 'line'},
+            { name: 'peanut', data: [], type: 'line'},
+            { name: 'wheat', data: [], type: 'line'},
+            { name: 'barley', data: [], type: 'line'},
+          ]
+        };
+        var oriArr = res.data.records;
+        oriArr.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)); 
+        var arr = new Array(res.data.records.length);
+        var arr2 = new Array(res.data.records.length);
+        for(var i = 0; i < arr.length; i++){
+          arr[i] = res.data.records[i].unitPrice;
+          arr2[i] = res.data.records[i].date;
+          console.log(arr2[i])
+        }
+        priceOption.series[0].data = arr;
+        priceOption.xAxis.data = arr2;
+        priceChart.setOption(priceOption);
+
+        
       },
     },
   }
