@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hlp.agrisys.entity.MarketTrend;
+import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.service.IMarketTrendService;
 import freemarker.template.utility.DateUtil;
 import org.apache.logging.log4j.util.Strings;
@@ -38,41 +39,36 @@ public class MarketTrendController {
 
     //Get all market information
     @GetMapping
-    public List<MarketTrend> listMarketTrends(){
-        return iMarketTrendService.list();
+    public Result listMarketTrends(){
+        return new Result(200, iMarketTrendService.list());
     }
 
     //Save or update market information
     @PostMapping
-    public boolean saveOrUpdateMarketTrend(@RequestBody MarketTrend marketTrend){
-        return iMarketTrendService.saveOrUpdate(marketTrend);
+    public Result saveOrUpdateMarketTrend(@RequestBody MarketTrend marketTrend){
+        return new Result(200, iMarketTrendService.saveOrUpdate(marketTrend));
     }
 
     //delete market information by id
     @DeleteMapping("{id}")
-    public boolean deleteMarketTrendById(@PathVariable String id){
-        return iMarketTrendService.removeById(id);
+    public Result deleteMarketTrendById(@PathVariable String id){
+        return new Result(200, iMarketTrendService.removeById(id));
     }
 
     //delete market information by id
     @PostMapping("/batchDel")
-    public boolean batchDeleteMarketTrend(@RequestBody List<String> ids){
-        return iMarketTrendService.removeByIds(ids);
+    public Result batchDeleteMarketTrend(@RequestBody List<String> ids){
+        return new Result(200, iMarketTrendService.removeByIds(ids));
     }
 
     //pagination query
     @GetMapping("/page")
-    public IPage<MarketTrend> pageSelect(@RequestParam int currentPage,
-                                         @RequestParam int pageSize,
-                                         @RequestParam(defaultValue = "") String crop,
-                                         @RequestParam(defaultValue = "") String beginDate,
-                                         @RequestParam(defaultValue = "") String endDate){
-        LambdaQueryWrapper<MarketTrend> lqw = new LambdaQueryWrapper<>();
-        lqw.like(StringUtils.isNotBlank(crop), MarketTrend::getCrop, crop);
-        lqw.between(StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate), MarketTrend::getDate, beginDate, endDate);
-        lqw.orderByDesc(MarketTrend::getDate);
-        IPage<MarketTrend> page = new Page(currentPage, pageSize);
-        iMarketTrendService.page(page, lqw);
-        return page;
+    public Result pageSelect(@RequestParam int currentPage,
+                             @RequestParam int pageSize,
+                             @RequestParam(defaultValue = "") String crop,
+                             @RequestParam(defaultValue = "") String beginDate,
+                             @RequestParam(defaultValue = "") String endDate)
+    {
+        return iMarketTrendService.getMarketPage(currentPage, pageSize, crop, beginDate, endDate);
     }
 }

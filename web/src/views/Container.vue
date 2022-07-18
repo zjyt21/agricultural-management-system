@@ -6,11 +6,11 @@
     
     <el-container>
       <el-header style="border-bottom: 1px solid #ccc; box-shadow: 0px 1px 3px #ccc; ">
-        <Header :collapseBtnClass="collapseBtnClass" :collapse="collapse" />
+        <Header :collapseBtnClass="collapseBtnClass" :collapse="collapse" :user="user" />
       </el-header>
       
       <el-main>
-        <router-view></router-view>
+        <router-view @refreshUser="getUser" />
       </el-main>
     </el-container>
   </el-container>
@@ -29,8 +29,13 @@
       return {
         collapseBtnClass:'el-icon-s-fold',
         isCollapse: false,
-        sideWidth: 250
+        sideWidth: 250,
+        user: {},
       }
+    },
+    created() {
+      // Get the latest User data from the background
+      this.getUser()
     },
     methods:{
       collapse(){
@@ -41,6 +46,17 @@
         }else{
           this.sideWidth = 250
           this.collapseBtnClass = 'el-icon-s-fold'
+        }
+      },
+      getUser() {
+        let username = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).username : ""
+        if (username) {
+          // Get User data from background
+          this.request.get("/user/userInfo").then(res => {
+            // Reassign the latest User data in the background
+            console.log(res)
+            this.user = res.data
+          })
         }
       },
     }

@@ -2,6 +2,7 @@ package com.hlp.agrisys.service;
 
 import com.hlp.agrisys.entity.MarketTrend;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hlp.agrisys.entity.Result;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMarketTrendService extends IService<MarketTrend> {
 
+    Result getMarketPage(int currentPage, int pageSize, String crop, String beginDate, String endDate);
 }

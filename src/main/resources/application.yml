@@ -5,6 +5,13 @@ spring:
       url: jdbc:mysql://localhost:3306/smart_farming
       username: root
       password: hlproot
+  redis:
+    host: 192.168.205.100
+    port: 6379
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 10MB
 
 server:
   port: 9999
@@ -13,3 +20,14 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml #Scan all mybatis xml files
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted #Configure logical deletion field related information
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+
+oss:
+  accessKey: wkHAMrnRxHBylzFaEzzHglivJBd4z9AwGTwWoEJW
+  secretKey: 6BzQPRFrX4ScMHAPvvaiGYGyvCjK2_TIcGhV-P53
+  bucket: smart-farming
+  domainName: http://rf6jnyisc.bkt.clouddn.com/

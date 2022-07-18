@@ -4,7 +4,7 @@
       
     </div>
 
-    <el-form :inline="true"  class="demo-form-inline">
+    <el-form :inline="true" class="demo-form-inline">
       <el-form-item prop="crop">
         <el-select filterable v-model="crop" placeholder="Please select a crop name">
             <el-option label="paddy" value="paddy"></el-option>
@@ -98,14 +98,14 @@
         @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[5, 10, 20]"
-        :page-size="5"
+        :page-size=pageSize
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
     </div>
 
     <el-dialog title="Market Information" :visible.sync="dialogFormVisible" width="30%" center>
-      <el-form label-width="auto" size="small">
+      <el-form label-width="auto" size="small" :model="form" :rules="rules" ref="marketForm">
         <el-form-item label="Date" prop="date">
           <el-col :span="11">
             <el-date-picker type="date" placeholder="select date" v-model="form.date" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
@@ -159,6 +159,12 @@
         multipleSelection: [],
         dialogFormVisible: false,
 
+        rules: {
+          date: [ {required: true, message: 'Please choose the date', trigger: 'blur'},],
+          crop: [{required: true, message: 'Please choose one crop', trigger: 'blur'},],
+          unitPrice: [{required: true, message: 'Please input the price', trigger: 'blur'},],
+        },
+
         dateVal:'',
         pickerOptions: {
           shortcuts: [{
@@ -189,6 +195,11 @@
         },
       }
     },
+    watch:{
+      dateVal(val){
+        if(val == null) this.dateVal = ''
+      }
+    },
     created() {
       this.loadPage()
     },
@@ -206,10 +217,14 @@
             endDate:this.dateVal[1],
           }
         }).then(res => {
-            console.log(res)
-            console.log(this.dateVal)
-            this.tableData = res.records
-            this.total = res.total
+            this.tableData = res.data.records
+            this.total = res.data.total
+            let maxPage = parseInt((this.total - 1) / this.pageSize + 1);
+            console.log(maxPage)
+            if(this.currentPage > maxPage){
+              this.currentPage = maxPage
+              console.log('currentPage' + this.currentPage)
+            }
           })
       },
       handleSizeChange(pageSize){
@@ -226,15 +241,21 @@
         this.form = {}
       },
       save(){
-        this.request.post("/market-trend", this.form).then(res => {
-          if(res){
-            this.$message.success("Successfully saved")
-            this.dialogFormVisible = false;
-            this.loadPage()
-          }else{
-             this.$message.error("Failed to save, please try again")
-          }
-        })
+        this.$refs['marketForm'].validate((valid) => {
+            if (valid) {  // Form validation is valid
+              this.request.post("/market-trend", this.form).then(res => {
+                if(res.code === 200){
+                  this.$message.success("Successfully saved")
+                  this.dialogFormVisible = false;
+                  this.loadPage()
+                }else{
+                  this.$message.error("Failed to save, please try again")
+                }
+              })
+            }else{
+              this.$message.error("Failed to save, please check that your data meets the requirements")
+            }
+        });
       },
       handleEdit(row){
         this.form = Object.assign({}, row) 
@@ -242,7 +263,7 @@
       },
       del(id){
         this.request.delete("/market-trend/" + id).then(res => {
-          if(res){
+          if(res.code === 200){
             this.$message.success("Successfully deleted")
             this.loadPage()
           }else{
@@ -256,7 +277,7 @@
       delBatch(){
         let ids = this.multipleSelection.map(v => v.id)
         this.request.post("/market-trend/batchDel", ids).then(res => {
-          if(res){
+          if(res.code === 200){
             this.$message.success("Successfully deleted")
             this.loadPage()
           }else{
@@ -267,6 +288,7 @@
       reset(){
         this.crop = "",
         this.dateVal= "",
+        this.currentPage = 1;
         this.loadPage()
       },
       cancel(){

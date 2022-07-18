@@ -4,6 +4,8 @@ import Container from '../views/Container.vue'
 import Market from '../views/Market.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import Person from '../views/Person.vue'
 
 Vue.use(VueRouter)
 
@@ -13,16 +15,9 @@ const routes = [
     component: Container,
     redirect:"/home",
     children:[
-      {
-        path: 'home',
-        name: 'Home',
-        component: Home,
-      },
-      {
-        path: 'market',
-        name: 'Market',
-        component: Market,
-      },
+      { path: 'home', name: 'Home', component: Home, },
+      { path: 'market', name: 'Market', component: Market, },
+      { path: 'person', name: 'Person', component: Person, meta:{ name:'User information' }},
     ]
   },
   {
@@ -31,6 +26,13 @@ const routes = [
     component: Login,
     
   },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    
+  },
+  
 ]
 
 const router = new VueRouter({

@@ -5,7 +5,7 @@
         <img src="../assets/logo.png"  height="100%" alt="">
       </div>
       <div style="margin: 10px 0; text-align: center; font-size: 24px"><b>Smart Farm</b></div>
-      <!-- <el-form :model="user" :rules="rules" ref="userForm">
+      <el-form :model="user" :rules="rules" ref="userForm">
         <el-form-item prop="username">
           <el-input 
             size="medium" 
@@ -27,25 +27,7 @@
           <el-button type="warning" size="small" autocomplete="off" @click="$router.push('/register')">Sign Up</el-button>
           <el-button type="primary" size="small" autocomplete="off" @click="login">Sign In</el-button>
         </el-form-item>
-      </el-form> -->
-      <el-input 
-        size="medium" 
-        style="margin: 10px 0" 
-        prefix-icon="el-icon-user" 
-        v-model="user.username">
-      </el-input>
-      <el-input 
-        size="medium" 
-        style="margin: 10px 0" 
-        prefix-icon="el-icon-lock" 
-        show-password
-        v-model="user.password">
-      </el-input>
-      <div style="margin: 10px 0; text-align: right">
-        <el-button type="warning" size="small" autocomplete="off" @click="$router.push('/register')">Sign Up</el-button>
-        <el-button type="primary" size="small" autocomplete="off" @click="login">Sign In</el-button>
-      </div>
-      
+      </el-form>
     </div>
   </div>
 </template>
@@ -58,43 +40,60 @@ export default {
   data() {
     return {
       user: {},
-      // rules: {
-      //   username: [
-      //     {required: true, message: 'Please enter username', trigger: 'blur'},
-      //     {min: 3, max: 10, message: 'Username should be between 3 and 5 characters long', trigger: 'blur'}
-      //   ],
-      //   password: [
-      //     {required: true, message: 'Please enter password', trigger: 'blur'},
-      //     {min: 1, max: 20, message: 'Length should be between 1 and 20 characters', trigger: 'blur'}
-      //   ],
-      // }
+      rules: {
+        username: [
+          {required: true, message: 'Please enter username', trigger: 'blur'},
+          {min: 2, max: 10, message: 'Username should be between 2 and 5 characters long', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: 'Please enter password', trigger: 'blur'},
+          {min: 1, max: 20, message: 'Length should be between 1 and 20 characters', trigger: 'blur'}
+        ],
+      }
     }
   },
-  // methods: {
-  //   login() {
-  //     this.$refs['userForm'].validate((valid) => {
-  //       if (valid) {  // 表单校验合法
-  //         this.request.post("/user/login", this.user).then(res => {
-  //           if (res.code === '200') {
-  //             localStorage.setItem("user", JSON.stringify(res.data))  // 存储用户信息到浏览器
-  //             localStorage.setItem("menus", JSON.stringify(res.data.menus))  // 存储用户信息到浏览器
-  //             // 动态设置当前用户的路由
-  //             setRoutes()
-  //             this.$message.success("Login successful")
+  methods: {
+    login(){
+      this.$refs['userForm'].validate((valid) => {
+          if (valid) {  // Form validation is valid
+            this.request.post("/user/login", this.user).then(res => {
+              if(res.code === 200){
+                console.log(res)
+                localStorage.setItem("token", JSON.stringify(res.data.token)) 
+                localStorage.setItem("user", JSON.stringify(res.data.userInfo)) 
+                this.$router.push("/")
+                this.$message.success("Login successful")
+              }else{
+                this.$message.error(res.msg)
+              }
+            })
+          }
+      });
+    }
+    // login() {
+    //   this.$refs['userForm'].validate((valid) => {
+    //     if (valid) {  // 表单校验合法
+    //       this.request.post("/user/login", this.user).then(res => {
+    //         if (res.code === '200') {
+    //           localStorage.setItem("user", JSON.stringify(res.data))  // 存储用户信息到浏览器
+    //           localStorage.setItem("menus", JSON.stringify(res.data.menus))  // 存储用户信息到浏览器
+    //           // 动态设置当前用户的路由
+    //           setRoutes()
+    //           this.$message.success("Login successful")
 
-  //             if (res.data.role === 'ROLE_STUDENT') {
-  //               this.$router.push("/front/home")
-  //             } else {
-  //               this.$router.push("/")
-  //             }
-  //           } else {
-  //             this.$message.error(res.msg)
-  //           }
-  //         })
-  //       }
-  //     });
-  //   }
-  // }
+    //           if (res.data.role === 'ROLE_STUDENT') {
+    //             this.$router.push("/front/home")
+    //           } else {
+    //             this.$router.push("/")
+    //           }
+    //         } else {
+    //           this.$message.error(res.msg)
+    //         }
+    //       })
+    //     }
+    //   });
+    // }
+  }
 }
 </script>
 
