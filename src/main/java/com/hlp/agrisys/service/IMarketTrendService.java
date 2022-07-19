@@ -15,4 +15,6 @@ import com.hlp.agrisys.entity.Result;
 public interface IMarketTrendService extends IService<MarketTrend> {
 
     Result getMarketPage(int currentPage, int pageSize, String crop, String beginDate, String endDate);
+
+    Result getChart(String beginDate, String endDate);
 }

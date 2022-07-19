@@ -71,4 +71,12 @@ public class MarketTrendController {
     {
         return iMarketTrendService.getMarketPage(currentPage, pageSize, crop, beginDate, endDate);
     }
+
+    //echarts data
+    @GetMapping("/chart")
+    public Result getChart(@RequestParam(defaultValue = "") String beginDate,
+                           @RequestParam(defaultValue = "") String endDate)
+    {
+        return iMarketTrendService.getChart(beginDate, endDate);
+    }
 }

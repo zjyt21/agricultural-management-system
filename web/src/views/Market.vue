@@ -4,13 +4,30 @@
       
     </div> -->
 
+    <el-form :inline="true" class="demo-form-inline" style="text-align: center;">
+      <el-form-item>
+        <el-date-picker
+          v-model="chartDateVal"
+          type="daterange"
+          unlink-panels
+          range-separator="to"
+          start-placeholder="Begin date"
+          end-placeholder="End date"
+          value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button class="ml-5" type="primary" @click="getChart" icon="el-icon-search">Search</el-button>
+      </el-form-item>
+    </el-form>
+    
     <el-row :gutter="10" style="margin-bottom: 40px;">
       <el-col :span="2"></el-col>
-      <el-col :span="11">
-        <el-card id="price" style="height: 400px;"></el-card>
+      <el-col :span="12" >
+        <el-card id="price" style="height: 500px;" class="chart"></el-card>
       </el-col>
-      <el-col :span="11">
-          <div id="trend" style="height: 400px;"></div>
+      <el-col :span="12" >
+          <el-card id="trend" style="height: 500px;" class="chart"></el-card>
       </el-col>
     </el-row>
 
@@ -57,8 +74,6 @@
       >
       <el-button type="danger" slot="reference">Delete in bulk <i class="el-icon-remove-outline"></i></el-button>
       </el-popconfirm>
-      <el-button type="primary" class="ml-5">Import <i class="el-icon-document-add"></i></el-button>
-      <el-button type="primary" class="ml-5">Download <i class="el-icon-download"></i></el-button>
     </div>
 
     <el-table 
@@ -102,6 +117,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <div style="padding: 10px 0;">
       <el-pagination
         @size-change="handleSizeChange"
@@ -176,7 +192,9 @@
           unitPrice: [{required: true, message: 'Please input the price', trigger: 'blur'},],
         },
 
-        dateVal:'',
+        chartDateVal:[],
+
+        dateVal:[],
         pickerOptions: {
           shortcuts: [{
             text: 'within 7 days',
@@ -209,12 +227,35 @@
     watch:{
       dateVal(val){
         if(val == null) this.dateVal = ''
+      },
+      chartDateVal(val){
+        if(val == null) this.chartDateVal = ''
       }
     },
     created() {
       this.loadPage()
     },
+    mounted() {
+      this.chartDateVal[0] = this.getFormatDate(1)
+      this.chartDateVal[1] = this.getFormatDate(0)
+      this.getChart()
+    },
     methods: {
+      getFormatDate(offset) {
+          var date = new Date()
+          var seperator1 = '-'
+          var year = date.getFullYear() - offset
+          var month = date.getMonth() + 1
+          var strDate = date.getDate()
+          if (month >= 1 && month <= 9) {
+            month = '0' + month
+          }
+          if (strDate >= 0 && strDate <= 9) {
+            strDate = '0' + strDate
+          }
+          var currentdate = year + seperator1 + month + seperator1 + strDate
+          return currentdate
+      },
       rowClass(){
         return "text-align:center"
       },
@@ -228,15 +269,13 @@
             endDate:this.dateVal[1],
           }
         }).then(res => {
+          console.log(res.data.records)
             this.tableData = res.data.records
             this.total = res.data.total
             let maxPage = parseInt((this.total - 1) / this.pageSize + 1);
-            console.log(maxPage)
             if(this.currentPage > maxPage){
               this.currentPage = maxPage
-              console.log('currentPage' + this.currentPage)
             }
-            this.getChart(res)
           })
       },
       handleSizeChange(pageSize){
@@ -310,16 +349,24 @@
         this.dialogFormVisible = false
         this.$message.warning("Form submission canceled")
       },
-      getChart(res) {
+      getChart() {
         var priceChartDom = document.getElementById('price');
         var priceChart = echarts.init(priceChartDom);
 
+        var trendChartDom = document.getElementById('trend');
+        var trendChart = echarts.init(trendChartDom);
+
         var priceOption = {
           title: {
-            text: 'Unit Price',
-            left: 'center'
+            text: 'Unit Price of Crops',
+            left: 'center',
+            textStyle:{
+              fontStyle:'normal',
+              fontWeight:'bold',
+              fontFamily:'Arial',
+              fontSize:25
+            }
           },
-          // grid:{x:'12%',y:'12%',x2:'12%',y2:'12%'},
           tooltip: {
             trigger: 'item',
             axisPointer: {
@@ -331,32 +378,25 @@
             x: 'center',
             y: 'bottom'
           },
-           grid: {
-                left: '3%',
-                right: '7%',
-                top:'15%',
-                bottom: '12%',
-                containLabel: true
-            },
+          grid: {
+            left: '5%',
+            right: '7%',
+            top:'15%',
+            bottom: '12%',
+            containLabel: true
+          },
           toolbox: {
               show: true,
               //toolbox的配置项
               feature: {
                   //辅助线的开关
                   mark: { show: true },
-                  //数据视图
-                  dataView: {
-                      show: true,
-                      readOnly: false
-                  },
                   //动态类型切换
                   magicType: {
                       show: true,
                       //line为折线图，bar为柱状图
                       type: ['line', 'bar']
                   },
-                  //配置项还原
-                  restore: { show: true },
                   //将图标保存为图片
                   saveAsImage: { show: true }
               }
@@ -364,17 +404,46 @@
           calculable: true,
           xAxis: {
             name: 'Date',
-            type: 'category',
+            type: 'time',
+            
             //数值起始和结束两端空白策略
-            boundaryGap: false,
-            data: []
+            // boundaryGap: false,
+            axisLabel: {        
+                show: true,
+                textStyle: {
+                    color: 'green',
+                    fontSize:'13',
+                    fontWeight:'bold'
+                }
+            },
+            axisLine:{
+              lineStyle:{
+                color:'black',
+                width:2,
+              }
+            },
           },
           yAxis: {
-            name: 'Price',
-            type: 'value',        
-            // interval: 300,
-            // min: 3300,
-            // max: 4500,
+            name: 'Price (GBP per ton)',
+            type: 'value',  
+            // splitLine: {
+            //     lineStyle: {
+            //       color: ['#eee']
+            //     }
+            // },
+            axisLabel: {        
+                show: true,
+                textStyle: {
+                    color: 'black',
+                    fontSize:'10',
+                }
+            },
+            axisLine:{
+              lineStyle:{
+                color:'black',
+                width:2,
+              }
+            }      
           },
           series: [
             { name: 'paddy', data: [], type: 'line'},
@@ -385,25 +454,134 @@
             { name: 'barley', data: [], type: 'line'},
           ]
         };
-        var oriArr = res.data.records;
-        oriArr.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)); 
-        var arr = new Array(res.data.records.length);
-        var arr2 = new Array(res.data.records.length);
-        for(var i = 0; i < arr.length; i++){
-          arr[i] = res.data.records[i].unitPrice;
-          arr2[i] = res.data.records[i].date;
-          console.log(arr2[i])
-        }
-        priceOption.series[0].data = arr;
-        priceOption.xAxis.data = arr2;
-        priceChart.setOption(priceOption);
 
-        
+        var trendOption = {
+          title: {
+            text: 'Demand and Production Comparison',
+            subtext: 'demand minus supply (local market)',
+            left: 'center',
+            textStyle:{
+              fontStyle:'normal',
+              fontWeight:'bold',
+              fontFamily:'Arial',
+              fontSize:25
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'cross'
+            }
+          },
+          legend: {
+            orient: 'horizontal',
+            x: 'center',
+            y: 'bottom',
+          },
+          grid: {
+            left: '6%',
+            right: '7%',
+            top:'20%',
+            bottom: '12%',
+            containLabel: true
+          },
+          toolbox: {
+              show: true,
+              //toolbox的配置项
+              feature: {
+                  //辅助线的开关
+                  mark: { show: true },
+                  //动态类型切换
+                  magicType: {
+                      show: true,
+                      //line为折线图，bar为柱状图
+                      type: ['line', 'bar']
+                  },
+                  //将图标保存为图片
+                  saveAsImage: { show: true }
+              }
+          },
+          calculable: true,
+          xAxis: {
+            name: 'Date',
+            type: 'time',
+            //数值起始和结束两端空白策略
+            boundaryGap: false,
+            axisLabel: {        
+                show: true,
+                textStyle: {
+                    color: 'green',
+                    fontSize:'13',
+                    fontWeight:'bold'
+                }
+            },
+            axisLine:{
+              lineStyle:{
+                color:'black',
+                width:2,   //这里是坐标轴的宽度,可以去掉
+              }
+            }
+          },
+          yAxis: {
+            name: 'Quantity (10000 tons)',
+            type: 'value',
+            axisLabel: {        
+                show: true,
+                textStyle: {
+                    color: 'black',
+                    fontSize:'10'
+                }
+            },
+            axisLine:{
+              lineStyle:{
+                color:'black',
+                width:2,
+              }
+            }
+          },
+          series: [
+            { name: 'paddy', data: [], type: 'line'},
+            { name: 'potato', data: [], type: 'line'},
+            { name: 'soybean', data: [], type: 'line'},
+            { name: 'peanut', data: [], type: 'line'},
+            { name: 'wheat', data: [], type: 'line'},
+            { name: 'barley', data: [], type: 'line'},
+          ]
+        };
+        this.request.get("/market-trend/chart", {
+            params:{
+              beginDate: this.chartDateVal[0],
+              endDate: this.chartDateVal[1],
+            }
+        }).then(res => {
+          console.log(res)
+          priceOption.series[0].data = res.data[0].map(v => [v.date, v.unitPrice])
+          priceOption.series[1].data = res.data[1].map(v => [v.date, v.unitPrice])
+          priceOption.series[2].data = res.data[2].map(v => [v.date, v.unitPrice])
+          priceOption.series[3].data = res.data[3].map(v => [v.date, v.unitPrice])
+          priceOption.series[4].data = res.data[4].map(v => [v.date, v.unitPrice])
+          priceOption.series[5].data = res.data[5].map(v => [v.date, v.unitPrice])
+
+          trendOption.series[0].data = res.data[0].map(v => [v.date, v.demand - v.supply])
+          trendOption.series[1].data = res.data[1].map(v => [v.date, v.demand - v.supply])
+          trendOption.series[2].data = res.data[2].map(v => [v.date, v.demand - v.supply])
+          trendOption.series[3].data = res.data[3].map(v => [v.date, v.demand - v.supply])
+          trendOption.series[4].data = res.data[4].map(v => [v.date, v.demand - v.supply])
+          trendOption.series[5].data = res.data[5].map(v => [v.date, v.demand - v.supply])
+
+
+          priceChart.setOption(priceOption);
+          trendChart.setOption(trendOption);
+        })
+       
       },
     },
   }
 </script>
 
-<style>
-
+<style scoped>
+  .chart {
+    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+    overflow: hidden;
+  };
 </style>
