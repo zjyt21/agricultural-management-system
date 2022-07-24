@@ -8,8 +8,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Mr.Han
@@ -17,23 +19,36 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class LoginUser implements UserDetails {
     private User user;
+    private List<Menu> permissions;
 
-//    private List<String> permissions;
-//
-//    @JSONField(serialize = false)//这样该成员变量就不会被序列化，因为redis出于安全考虑，如果需要序列化这个成员变量，会报异常
-//    private List<SimpleGrantedAuthority> authorities;
+    public LoginUser(User user) {
+        this.user = user;
+    }
 
-//    public LoginUser(User user, List<String> permissions) {
-//        this.user = user;
-//        this.permissions = permissions;
-//    }
+    public LoginUser(User user, List<Menu> permissions) {
+        this.user = user;
+        this.permissions = permissions;
+    }
+
+    @JSONField(serialize = false)//这样该成员变量就不会被序列化，因为redis出于安全考虑，如果需要序列化这个成员变量，会报异常
+    private List<SimpleGrantedAuthority> authorities;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public Collection<? extends GrantedAuthority> getAuthorities() {//获取权限信息
+//        if(authorities != null){
+//            return authorities;
+//        }
+////        把permission中String类型的权限信息封装成SimpleGrantedAuthority对象
+//        authorities = new ArrayList<>();
+//        for (Menu permission : permissions){
+//            String permissionName = permission.getName();
+//            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permissionName);
+//            authorities.add(authority);
+//        }
+
+        return authorities;
     }
 
     @Override
@@ -63,6 +78,6 @@ public class LoginUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getStatus().equals("0") ? true : false;
     }
 }

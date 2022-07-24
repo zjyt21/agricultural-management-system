@@ -57,13 +57,13 @@ public class User implements Serializable {
     @ApiModelProperty(value = "avatar")
     private String avatar;
 
-    @ApiModelProperty(value = "User type (0 boss, 1 data managers, 2 farmer")
+    @ApiModelProperty(value = "User Role")
     private String role;
 
     @ApiModelProperty(value = "create time")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "Delete flag (0 means not deleted, 1 means deleted)）")
+    @ApiModelProperty(value = "Delete flag (0 means not deleted, 1 means deleted)")
     private Integer deleted;
 
     @JsonProperty

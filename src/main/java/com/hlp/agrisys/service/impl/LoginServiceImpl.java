@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -48,6 +50,7 @@ public class LoginServiceImpl implements ILoginService {
         redisCache.setCacheObject("login:" + userid, loginUser);
         //把user转换成UserInfoVo
         UserInfoVo userInfoVo = BeanUtil.copyProperties(loginUser.getUser(), UserInfoVo.class);
+        userInfoVo.setPermissions(loginUser.getPermissions());
         //把token和userinfo封装返回
         UserLoginVo userLoginVo = new UserLoginVo(jwt, userInfoVo);
         return new Result(200, "login successful", userLoginVo);

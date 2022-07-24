@@ -5,6 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.User;
 import com.hlp.agrisys.mapper.UserMapper;
@@ -122,5 +126,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return null;
         }
         return null;
+    }
+
+    //get user's list
+    @Override
+    public Result getUserPage(int currentPage, int pageSize, String username, String nickname, String email) {
+        username = username.trim();
+        nickname = nickname.trim();
+        email = email.trim();
+        LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<>();
+        lqw.like(StringUtils.isNotBlank(username), User::getUsername, username);
+        lqw.like(StringUtils.isNotBlank(nickname), User::getNickname, nickname);
+        lqw.like(StringUtils.isNotBlank(email), User::getEmail, email);
+
+        IPage<User> page = new Page(currentPage, pageSize);
+        page(page, lqw);
+        if(page.getPages() < currentPage){
+            return getUserPage((int)page.getPages(), pageSize, username, nickname, email);
+        }
+        return new Result(200, page);
     }
 }

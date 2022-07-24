@@ -269,7 +269,6 @@
             endDate:this.dateVal[1],
           }
         }).then(res => {
-          console.log(res.data.records)
             this.tableData = res.data.records
             this.total = res.data.total
             let maxPage = parseInt((this.total - 1) / this.pageSize + 1);
@@ -554,7 +553,6 @@
               endDate: this.chartDateVal[1],
             }
         }).then(res => {
-          console.log(res)
           priceOption.series[0].data = res.data[0].map(v => [v.date, v.unitPrice])
           priceOption.series[1].data = res.data[1].map(v => [v.date, v.unitPrice])
           priceOption.series[2].data = res.data[2].map(v => [v.date, v.unitPrice])

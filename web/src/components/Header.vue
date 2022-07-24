@@ -4,7 +4,7 @@
       <span :class="collapseBtnClass" style="cursor: pointer" @click="collapse"></span>
       <el-breadcrumb separator="/" style="display: inline-block; margin-left: 10px;">
         <el-breadcrumb-item :to="'/'">Home</el-breadcrumb-item>
-        <el-breadcrumb-item>{{ this.$route.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ this.$route.meta.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-dropdown style="width: 150px; cursor: pointer; text-align: right;">

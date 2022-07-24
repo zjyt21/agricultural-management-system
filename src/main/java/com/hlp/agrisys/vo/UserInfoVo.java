@@ -1,7 +1,10 @@
 package com.hlp.agrisys.vo;
 
+import com.hlp.agrisys.entity.Menu;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * @author Mr.Han
@@ -44,4 +47,8 @@ public class UserInfoVo {
      * email
      */
     private String email;
+
+    private String role;
+
+    private List<Menu> permissions;
 }

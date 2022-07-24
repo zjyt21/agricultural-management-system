@@ -21,4 +21,6 @@ public interface IUserService extends IService<User> {
     Result userInfo();
 
     Result updateUserInfo(User user);
+
+    Result getUserPage(int currentPage, int pageSize, String username, String nickname, String email);
 }

@@ -43,11 +43,27 @@
     </el-submenu>
     <el-submenu index="4">
       <template slot="title">
-        <i class="el-icon-s-custom"></i>
-        <span>Staff</span>
+        <i class="el-icon-setting"></i>
+        <span>System Settings</span>
       </template>
-      <el-menu-item index="4-1">Authority Management</el-menu-item>
-      <el-menu-item index="4-2">Operation Record</el-menu-item>
+      <el-menu-item index="/user">
+        <i class="el-icon-user"></i>
+        <template slot="title">
+          User Management
+        </template>
+      </el-menu-item>
+      <el-menu-item index="/role">
+        <i class="el-icon-s-custom"></i>
+        <template slot="title">
+          Role Management
+        </template>
+      </el-menu-item>
+      <el-menu-item index="/menu">
+        <i class="el-icon-menu"></i>
+        <template slot="title">
+          Menu Management
+        </template>
+      </el-menu-item>
     </el-submenu>
   </el-menu>
 </template>

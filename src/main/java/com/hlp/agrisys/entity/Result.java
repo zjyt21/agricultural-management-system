@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.poi.ss.formula.functions.T;
 
+import java.util.Objects;
+
 /**
  * Format of response data
  *
@@ -29,6 +31,14 @@ public class Result<T> {
      * Query result data,
      */
     private T data;
+
+    public static Result success(){
+        return new Result(200, "操作成功");
+    }
+
+    public static Result success(Object data){
+        return new Result(200, data);
+    }
 
     public Result(Integer code, String msg) {
         this.code = code;
