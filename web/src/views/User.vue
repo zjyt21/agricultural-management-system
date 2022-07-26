@@ -45,7 +45,7 @@
       <el-table-column prop="nickname" label="Nickname" width="120"></el-table-column>
       <el-table-column prop="role" label="Role" width="200"></el-table-column>
       <el-table-column prop="email" label="Email"></el-table-column>
-      <el-table-column prop="phone" label="Phone"></el-table-column>
+      <el-table-column prop="phonenumber" label="Phone"></el-table-column>
       <el-table-column prop="option" label="Operation">
         <template slot-scope="scope">
           <el-button type="success" @click="handleEdit(scope.row)">Edit <i class="el-icon-edit"></i></el-button>
@@ -89,7 +89,7 @@
           <el-input v-model="form.email" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Phone">
-          <el-input v-model="form.phone" autocomplete="off"></el-input>
+          <el-input v-model="form.phonenumber" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Role">
           <el-select clearable v-model="form.role" style="width: 100%;">

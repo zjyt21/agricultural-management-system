@@ -50,5 +50,5 @@ public class UserInfoVo {
 
     private String role;
 
-    private List<Menu> permissions;
+    private List<Menu> menus;
 }

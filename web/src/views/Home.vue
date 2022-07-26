@@ -90,7 +90,6 @@
           crop: 'paddy',
         }
       }).then(res => {
-        console.log(res)
         var arr = new Array(res.data.records.length);
         var arr2 = new Array(res.data.records.length);
         for(var i = 0; i < arr.length; i++){

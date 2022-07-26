@@ -37,7 +37,7 @@ public class Menu implements Serializable {
     private String path;
 
     @ApiModelProperty(value = "component path")
-    private String component;
+    private String pagePath;
 
     @ApiModelProperty(value = "Menu status (0 normal 1 disabled)")
     private String status;

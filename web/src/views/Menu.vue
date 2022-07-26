@@ -1,9 +1,9 @@
 <template>
   <div>
     <div style="margin: 10px 0">
-      <el-input style="width: 200px" placeholder="Please enter the name" suffix-icon="el-icon-search" v-model="name"></el-input>
+      <!-- <el-input style="width: 200px" placeholder="Please enter the name" suffix-icon="el-icon-search" v-model="name"></el-input>
       <el-button class="ml-5" type="primary" @click="search">Search</el-button>
-      <el-button type="warning" @click="reset">Reset</el-button>
+      <el-button type="warning" @click="reset">Reset</el-button> -->
     </div>
 
     <div style="margin: 10px 0">
@@ -74,6 +74,9 @@
         <el-form-item label="Path">
           <el-input v-model="form.path" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="Page Path">
+          <el-input v-model="form.pagePath" autocomplete="off"></el-input>
+        </el-form-item>
         <el-form-item label="Icon">
           <el-select clearable v-model="form.icon" placeholder="Please Choose" style="width: 100%">
             <el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.value">
@@ -106,6 +109,7 @@
         name: "",
         form: {},
         dialogFormVisible: false,
+        options:[],
 
         menuDialogVis: false,
         multipleSelection: [],
@@ -154,7 +158,6 @@
         this.dialogFormVisible = true
 
         this.request.get("/menu/icons").then(res => {
-          console.log(res)
           this.options = res.data
         })
       },
@@ -183,10 +186,10 @@
           }
         })
       },
-      reset() {
-        this.name = ""
-        this.load()
-      },
+      // reset() {
+      //   this.name = ""
+      //   this.load()
+      // },
       handleSizeChange(pageSize) {
         console.log(pageSize)
         this.pageSize = pageSize

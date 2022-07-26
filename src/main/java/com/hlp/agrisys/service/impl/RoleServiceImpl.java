@@ -1,11 +1,14 @@
 package com.hlp.agrisys.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.hlp.agrisys.entity.Menu;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.Role;
 import com.hlp.agrisys.entity.RoleMenu;
 import com.hlp.agrisys.mapper.RoleMapper;
 import com.hlp.agrisys.mapper.RoleMenuMapper;
+import com.hlp.agrisys.service.IMenuService;
 import com.hlp.agrisys.service.IRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ import java.util.stream.Stream;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
     @Autowired
     private RoleMenuMapper roleMenuMapper;
+//    @Autowired
+//    private IMenuService menuService;
 
     @Transactional
     @Override
@@ -36,7 +41,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         lqw.eq(RoleMenu::getRoleId, roleId);
         roleMenuMapper.delete(lqw);
 
+//        List<Long> menuIdsCopy = CollUtil.newArrayList(menuIds);
         for(Long menuId : menuIds){
+//            Menu menu = menuService.getById(menuId);
+//            if(menu.getPid() != null && !menuIdsCopy.contains(menu.getPid())){
+//                RoleMenu roleMenu = new RoleMenu();
+//                roleMenu.setRoleId(roleId);
+//                roleMenu.setMenuId(menu.getPid());
+//                roleMenuMapper.insert(roleMenu);
+//                menuIdsCopy.add(menu.getPid());
+//            }
+
             RoleMenu roleMenu = new RoleMenu();
             roleMenu.setRoleId(roleId);
             roleMenu.setMenuId(menuId);

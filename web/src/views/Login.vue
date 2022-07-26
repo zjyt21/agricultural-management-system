@@ -33,7 +33,7 @@
 </template>
 
 <script>
-// import {setRoutes} from "@/router";
+import { setRoutes } from '@/router';
 
 export default {
   name: "Login",
@@ -54,13 +54,20 @@ export default {
   },
   methods: {
     login(){
+      localStorage.removeItem("token")
+      localStorage.removeItem("menus")
+      localStorage.removeItem("user")
       this.$refs['userForm'].validate((valid) => {
           if (valid) {  // Form validation is valid
             this.request.post("/user/login", this.user).then(res => {
               if(res.code === 200){
-                console.log(res)
+                console.log("res:" + res)
                 localStorage.setItem("token", JSON.stringify(res.data.token)) 
                 localStorage.setItem("user", JSON.stringify(res.data.userInfo)) 
+                localStorage.setItem("menus", JSON.stringify(res.data.userInfo.menus)) 
+
+                //dynamic route
+                setRoutes()
                 this.$router.push("/")
                 this.$message.success("Login successful")
               }else{
@@ -70,29 +77,6 @@ export default {
           }
       });
     }
-    // login() {
-    //   this.$refs['userForm'].validate((valid) => {
-    //     if (valid) {  // 表单校验合法
-    //       this.request.post("/user/login", this.user).then(res => {
-    //         if (res.code === '200') {
-    //           localStorage.setItem("user", JSON.stringify(res.data))  // 存储用户信息到浏览器
-    //           localStorage.setItem("menus", JSON.stringify(res.data.menus))  // 存储用户信息到浏览器
-    //           // 动态设置当前用户的路由
-    //           setRoutes()
-    //           this.$message.success("Login successful")
-
-    //           if (res.data.role === 'ROLE_STUDENT') {
-    //             this.$router.push("/front/home")
-    //           } else {
-    //             this.$router.push("/")
-    //           }
-    //         } else {
-    //           this.$message.error(res.msg)
-    //         }
-    //       })
-    //     }
-    //   });
-    // }
   }
 }
 </script>

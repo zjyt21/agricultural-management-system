@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-openeds="['1']" style="min-height: 100%; overflow-x:hidden" 
+  <el-menu :default-openeds="opens" style="min-height: 100%; overflow-x:hidden" 
     background-color="rgb(48, 65, 86)"
     text-color="#fff"
     active-text-color="#ffd04b"
@@ -12,73 +12,55 @@
     <div style="height: 20px; text-align: center; color:chartreuse;" v-show="!isCollapse">
       <b>Farmer Centre</b>
     </div>
-    <el-menu-item index="/">
-      <i class="el-icon-house"></i>
-      <template slot="title">
-        <span>Home</span>
-      </template>
-    </el-menu-item>
-    <el-submenu index="1">
-      <template slot="title">
-        <i class="el-icon-coin"></i>
-        <span>Data Records</span>
-      </template>
-      <el-menu-item index="1-1">Agricultural Behavior</el-menu-item>
-      <el-menu-item index="1-2">Soil and Weather</el-menu-item>
-      <el-menu-item index="1-3">History Harvest</el-menu-item>
-    </el-submenu>
-    <el-menu-item index="/market">
-      <i class="el-icon-s-marketing"></i>
-      <template slot="title">
-        <span>Market Details</span>
-      </template>
-    </el-menu-item>
-    <el-submenu index="3">
-      <template slot="title">
-        <i class="el-icon-s-data"></i>
-        <span>Data Analysis</span>
-      </template>
-      <el-menu-item index="3-1">Soil Assessment Model</el-menu-item>
-      <el-menu-item index="3-2">Yield Estimation Model</el-menu-item>
-    </el-submenu>
-    <el-submenu index="4">
-      <template slot="title">
-        <i class="el-icon-setting"></i>
-        <span>System Settings</span>
-      </template>
-      <el-menu-item index="/user">
-        <i class="el-icon-user"></i>
-        <template slot="title">
-          User Management
-        </template>
-      </el-menu-item>
-      <el-menu-item index="/role">
-        <i class="el-icon-s-custom"></i>
-        <template slot="title">
-          Role Management
-        </template>
-      </el-menu-item>
-      <el-menu-item index="/menu">
-        <i class="el-icon-menu"></i>
-        <template slot="title">
-          Menu Management
-        </template>
-      </el-menu-item>
-    </el-submenu>
+
+    <div v-for="item in menus" :key="item.id">
+      <div v-if="item.path">
+        <el-menu-item :index="item.path">
+          <i :class="item.icon"></i>
+          <template slot="title">
+            <span>{{ item.name }}</span>
+          </template>
+        </el-menu-item>
+      </div>
+      <div v-else>
+        <el-submenu :index="item.id + ''">
+          <template slot="title">
+            <i :class="item.icon"></i>
+            <span>{{ item.name }}</span>
+          </template>
+          <div v-for="subItem in item.children" :key="subItem.id">
+            <el-menu-item :index="subItem.path">
+              <i :class="subItem.icon"></i>
+              <template slot="title">
+                <span>{{ subItem.name }}</span>
+              </template>
+            </el-menu-item>
+          </div>
+        </el-submenu>
+      </div>
+    </div>
   </el-menu>
 </template>
 
 <script>
-
   export default {
     name:"Aside",
     
     props:{
         isCollapse:Boolean
-    }
+    },
+    data() {
+      return {
+        menus: localStorage.getItem("menus") ? JSON.parse(localStorage.getItem("menus")) : [],
+        opens: localStorage.getItem("menus") ? JSON.parse(localStorage.getItem("menus")).map(v => v.id + '') : []
+      }
+    },
   }
 </script>
 
 <style>
-
+  /*解决收缩菜单文字不消失问题*/
+  .el-menu--collapse span {
+    visibility: hidden;
+  }
 </style>

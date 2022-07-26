@@ -54,7 +54,6 @@
           // Get User data from background
           this.request.get("/user/userInfo").then(res => {
             // Reassign the latest User data in the background
-            console.log(res)
             this.user = res.data
           })
         }

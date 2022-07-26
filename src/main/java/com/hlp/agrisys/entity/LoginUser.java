@@ -1,17 +1,14 @@
 package com.hlp.agrisys.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Mr.Han
@@ -21,15 +18,15 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class LoginUser implements UserDetails {
     private User user;
-    private List<Menu> permissions;
+    private List<Menu> menus;
 
     public LoginUser(User user) {
         this.user = user;
     }
 
-    public LoginUser(User user, List<Menu> permissions) {
+    public LoginUser(User user, List<Menu> menus) {
         this.user = user;
-        this.permissions = permissions;
+        this.menus = menus;
     }
 
     @JSONField(serialize = false)//这样该成员变量就不会被序列化，因为redis出于安全考虑，如果需要序列化这个成员变量，会报异常

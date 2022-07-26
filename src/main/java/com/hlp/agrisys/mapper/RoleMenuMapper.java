@@ -18,6 +18,6 @@ import java.util.List;
  */
 @Mapper
 public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
-    @Select("select menu_id from sys_role_menu where role_id = #{roleId}")
+    @Select("select menu_id from role_menu where role_id = #{roleId}")
     List<Long> selectByRoleId(@Param("roleId")Long roleId);
 }

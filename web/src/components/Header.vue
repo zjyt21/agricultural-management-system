@@ -43,9 +43,12 @@
     },
     methods: {
       logout(){
+        this.$store.commit("logout")
         this.$router.push("/login")
         localStorage.removeItem("user")
         localStorage.removeItem("token")
+        localStorage.removeItem("menus")
+        
         this.$message.success("Logout successfully")
       }
     },

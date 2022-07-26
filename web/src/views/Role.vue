@@ -41,7 +41,7 @@
       <el-table-column prop="description" label="Description"></el-table-column>
       <el-table-column label="Operation"  width="350" align="center">
         <template slot-scope="scope">
-          <el-button type="info" @click="selectMenu(scope.row.id)">Assign menu <i class="el-icon-menu"></i></el-button>
+          <el-button type="info" @click="selectMenu(scope.row)">Assign menu <i class="el-icon-menu"></i></el-button>
           <el-button type="success" @click="handleEdit(scope.row)">Edit <i class="el-icon-edit"></i></el-button>
           <el-popconfirm
               class="ml-5"
@@ -92,7 +92,7 @@
       <el-tree
           :props="props"
           :data="menuData"
-          show-checkbox
+          :show-checkbox="true"
           node-key="id"
           ref="tree"
           :default-expanded-keys="expends"
@@ -133,7 +133,7 @@
         expends: [],
         checks: [],
         roleId: 0,
-        roleFlag: '',
+        roleKey: '',
         ids: [],
       }
     },
@@ -180,10 +180,9 @@
             this.menuDialogVis = false
 
             // 操作管理员角色后需要重新登录
-            // if (this.roleFlag === 'ROLE_ADMIN') {
-            //   this.$store.commit("logout")
-            // }
-
+            if (this.roleKey === 'ROLE_ADMIN') {
+              this.$store.commit("logout")
+            }
           } else {
             this.$message.error(res.msg)
           }
@@ -246,9 +245,10 @@
         this.menuDialogVis = false
         this.$message.warning("You canceled this operation")
       },
-      selectMenu(roleId){
+      selectMenu(role){
         this.menuDialogVis = true
-        this.roleId = roleId
+        this.roleId = role.id
+        this.roleKey = role.roleKey
 
         this.request.get("/menu").then(res => {
           this.menuData = res.data
@@ -257,7 +257,7 @@
           this.expends = this.menuData.map(v => v.id) 
         })
 
-        this.request.get("/role/roleMenu/" + roleId).then(res => {
+        this.request.get("/role/roleMenu/" + this.roleId).then(res => {
           this.checks = res.data 
         })
       },
