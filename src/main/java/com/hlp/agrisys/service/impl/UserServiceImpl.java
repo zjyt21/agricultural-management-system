@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.User;
 import com.hlp.agrisys.mapper.UserMapper;
@@ -40,8 +39,6 @@ import static com.hlp.agrisys.util.JwtUtil.parseJWT;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     private static final Log LOG = Log.get();
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private RedisCache redisCache;
 

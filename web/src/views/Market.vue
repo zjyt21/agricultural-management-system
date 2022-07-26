@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <div style="margin-bottom: 30px;">
-      
-    </div> -->
-
     <el-form :inline="true" class="demo-form-inline" style="text-align: center;">
       <el-form-item>
         <el-date-picker
