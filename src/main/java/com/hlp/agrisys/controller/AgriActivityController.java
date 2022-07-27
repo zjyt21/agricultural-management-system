@@ -67,4 +67,13 @@ public class AgriActivityController {
     public Result batchDeleteActivities(@RequestBody List<Long> ids) {
         return Result.success(agriActivityService.removeByIds(ids));
     }
+
+    //echarts data
+    @GetMapping("/chart")
+    public Result getChart(@RequestParam(defaultValue = "paddy") String crop,
+                           @RequestParam(defaultValue = "") String beginDate,
+                           @RequestParam(defaultValue = "") String endDate)
+    {
+        return agriActivityService.getChart(crop, beginDate, endDate);
+    }
 }

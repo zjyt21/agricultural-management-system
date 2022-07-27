@@ -15,4 +15,6 @@ import com.hlp.agrisys.entity.Result;
 public interface IAgriActivityService extends IService<AgriActivity> {
 
     Result getActivityPage(int currentPage, int pageSize, String type, String beginDate, String endDate, String crop);
+
+    Result getChart(String crop, String beginDate, String endDate);
 }

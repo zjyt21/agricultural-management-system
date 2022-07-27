@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div style="margin-bottom: 30px;">
-      
-    </div>
-
     <div style="margin: 10px 0;">
       <el-input style="width: 200px;" placeholder="Please input username" suffix-icon="el-icon-search" v-model="username"></el-input>
       <el-input style="width: 200px;" placeholder="Please input nickname" suffix-icon="el-icon-search" class="ml-5" v-model="nickname"></el-input>

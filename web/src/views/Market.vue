@@ -575,7 +575,7 @@
 
 <style scoped>
   .chart {
-    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+    background-image: linear-gradient(to top, #1c92d2 0%, #f2fcfe 100%);
     overflow: hidden;
   };
 </style>
