@@ -1,5 +1,48 @@
 <template>
   <div>
+    <el-row>
+      <el-col :span="3">
+        <el-card>
+          <div style="padding: 10px 0; text-align: center; font-weight: bold;"><i class="el-icon-document"></i> Today's Task: </div>
+
+        </el-card>
+      </el-col>
+      <el-col :span="5">
+        <el-card style="color: #409EFF; margin-left: 20px;">
+          <div style="font-size: small;"><i class="el-icon-grape"></i> Sowing</div>
+          <div style="padding: 10px 0; text-align: center; font-weight: bold;">
+            {{sowing}} KG
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="5">
+        <el-card style="color: #F56C6C; margin-left: 20px;">
+          <div style="font-size: small;"><i class="el-icon-water-cup"></i> Watering</div>
+          <div style="padding: 10px 0; text-align: center; font-weight: bold;">
+            {{watering}} KG
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="5">
+        <el-card style="color: #409EFF;margin-left: 20px;">
+          <div style="font-size: small;"><i class="el-icon-chicken"></i> Fertilization (nitrogen)</div>
+          <div style="padding: 10px 0; text-align: center; font-weight: bold;">
+            {{nitrogen}} KG
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="5">
+        <el-card style="color: #F56C6C;margin-left: 20px;">
+          <div style="font-size: small;"><i class="el-icon-chicken"></i> Fertilization (phosphate)</div>
+          <div style="padding: 10px 0; text-align: center; font-weight: bold;">
+            {{phosphate}} KG
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <div style="height: 20px;"></div>
+
     <el-form :inline="true" class="demo-form-inline" style="text-align: center;">
       <el-form-item prop="chartCrop">
         <el-select filterable v-model="chartCrop" placeholder="Please select a crop name" default-first-option="paddy">
@@ -28,7 +71,7 @@
     </el-form>
 
     <el-row :gutter="10" style="margin-bottom: 40px;">
-      <el-col :span="2"></el-col>
+      
       <el-col :span="24" >
         <el-card id="activity" style="height: 500px;" class="chart"></el-card>
       </el-col>
@@ -200,6 +243,7 @@ export default {
       form:{},
       multipleSelection: [],
       dialogFormVisible: false,
+      
 
       rules: {
         date: [ {required: true, message: 'Please choose the date', trigger: 'blur'},],
@@ -210,6 +254,12 @@ export default {
 
       chartDateVal:[],
       chartCrop:'paddy',
+
+      sowing:0,
+      watering:0,
+      nitrogen:0,
+      phosphate:0,
+      harvest:0,
 
       dateVal:[],
       pickerOptions: {
@@ -256,6 +306,7 @@ export default {
     this.chartDateVal[0] = this.getFormatDate(2)
     this.chartDateVal[1] = this.getFormatDate(0)
     this.getActivityChart()
+    this.getTask()
   },
   methods: {
     getFormatDate(offset) {
@@ -481,16 +532,25 @@ export default {
             endDate: this.chartDateVal[1],
           }
       }).then(res => {
-        console.log(res)
+        console.log(this)
         activityOption.series[0].data = res.data[0].map(v => [v.date, v.quantity])
         activityOption.series[1].data = res.data[1].map(v => [v.date, v.quantity])
         activityOption.series[2].data = res.data[2].map(v => [v.date, v.quantity])
         activityOption.series[3].data = res.data[3].map(v => [v.date, v.quantity])
         activityOption.series[4].data = res.data[4].map(v => [v.date, v.quantity])
-
         activityChart.setOption(activityOption);
       })
       
+    },
+    getTask(){
+      this.request.get("/agri-activity/dailyTask").then(res => {
+        console.log(res)
+        this.sowing = res.data[0]
+        this.watering = res.data[1]
+        this.nitrogen = res.data[2]
+        this.phosphate = res.data[3]
+        this.harvest = res.data[4]
+      })
     },
   },
 
