@@ -9,6 +9,14 @@ import request from './util/request';
 import i18n from './util/locale'
 import store from './store'
 
+import * as VueGoogleMaps from "vue2-google-maps" // Import package
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyBpAr7_pXelgE3kw1WHDW37LgGjG6hiPgU",
+    libraries: "places"
+  }
+});
+
 Vue.use(ElementUI, {size:"mini"}, { locale })
 Vue.config.productionTip = false
 Vue.prototype.request = request

@@ -2,17 +2,16 @@ package com.hlp.agrisys.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
 import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.User;
 import com.hlp.agrisys.mapper.UserMapper;
 import com.hlp.agrisys.service.IUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hlp.agrisys.util.RedisCache;
 import com.hlp.agrisys.util.SecurityUtils;
 import com.hlp.agrisys.vo.UserInfoVo;

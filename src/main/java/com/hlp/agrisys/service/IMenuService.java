@@ -1,8 +1,7 @@
 package com.hlp.agrisys.service;
 
-import com.hlp.agrisys.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.hlp.agrisys.entity.Result;
+import com.hlp.agrisys.entity.Menu;
 
 import java.util.List;
 

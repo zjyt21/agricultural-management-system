@@ -4,16 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hlp.agrisys.entity.AgriActivity;
-import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.mapper.AgriActivityMapper;
 import com.hlp.agrisys.service.IAgriActivityService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +59,54 @@ public class AgriActivityServiceImpl extends ServiceImpl<AgriActivityMapper, Agr
         return Result.success(agriActivities);
     }
 
+    @Override
+    public Result getTask() {
+        int[] task = new int[5];
+        LambdaQueryWrapper<AgriActivity> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(AgriActivity::getType, "harvest");
+        lqw.orderByDesc(AgriActivity::getDate).last("limit 1");
+        AgriActivity lastHarvest = agriActivityMapper.selectOne(lqw);
+
+        LambdaQueryWrapper<AgriActivity> lqw2 = new LambdaQueryWrapper<>();
+        lqw2.eq(AgriActivity::getType, "sowing");
+        lqw2.ge(AgriActivity::getDate, lastHarvest.getDate());
+        AgriActivity lastSowing = agriActivityMapper.selectOne(lqw2);
+        if(lastSowing == null) {
+            LambdaQueryWrapper<AgriActivity> lqw3 = new LambdaQueryWrapper<>();
+            lqw3.eq(AgriActivity::getType, "sowing");
+            List<AgriActivity> sowings = agriActivityMapper.selectList(lqw3);
+            int sum = 0;
+            for(AgriActivity a : sowings){
+                sum += a.getQuantity();
+            }
+            task[0] = sum / sowings.size();
+            return Result.success(task);
+        }
+
+        String crop = lastSowing.getCrop();
+        LambdaQueryWrapper<AgriActivity> lqw3 = new LambdaQueryWrapper<>();
+        lqw3.ge(AgriActivity::getDate, lastHarvest.getDate());
+        List<AgriActivity> curSeason = agriActivityMapper.selectList(lqw3);
+        int size = curSeason.size();
+        for(AgriActivity a : curSeason){
+            switch (a.getType()){
+                case "watering":
+                    task[1] += a.getQuantity() / size / 2;
+                    break;
+                case "nitrogen":
+                    task[2] += a.getQuantity() / size / 2;
+                    break;
+                case "phosphate":
+                    task[3] += a.getQuantity() / size / 2;
+                    break;
+            }
+        }
+        task[1] += 350;
+        task[2] += 23;
+        task[3] += 30;
+        return Result.success(task);
+    }
+
     private List<AgriActivity> getChartByActivity(String crop, String beginDate, String endDate, String activity) {
         LambdaQueryWrapper<AgriActivity> lqw = new LambdaQueryWrapper<>();
         lqw.eq(StringUtils.isNotBlank(activity), AgriActivity::getType, activity);
@@ -71,5 +116,4 @@ public class AgriActivityServiceImpl extends ServiceImpl<AgriActivityMapper, Agr
         return agriActivityMapper.selectList(lqw);
 
     }
-
 }

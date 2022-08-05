@@ -4,16 +4,17 @@ package com.hlp.agrisys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hlp.agrisys.entity.*;
+import com.hlp.agrisys.entity.Constants;
+import com.hlp.agrisys.entity.Dict;
+import com.hlp.agrisys.entity.Menu;
+import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.service.IDictService;
 import com.hlp.agrisys.service.IMenuService;
-import com.hlp.agrisys.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>

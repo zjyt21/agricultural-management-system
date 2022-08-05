@@ -1,23 +1,19 @@
 package com.hlp.agrisys.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.hlp.agrisys.entity.Menu;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.Role;
 import com.hlp.agrisys.entity.RoleMenu;
 import com.hlp.agrisys.mapper.RoleMapper;
 import com.hlp.agrisys.mapper.RoleMenuMapper;
-import com.hlp.agrisys.service.IMenuService;
 import com.hlp.agrisys.service.IRoleService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * <p>

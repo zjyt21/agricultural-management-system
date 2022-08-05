@@ -1,7 +1,6 @@
 package com.hlp.agrisys.service;
 
 import com.hlp.agrisys.entity.Result;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

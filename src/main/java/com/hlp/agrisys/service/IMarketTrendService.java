@@ -1,7 +1,7 @@
 package com.hlp.agrisys.service;
 
-import com.hlp.agrisys.entity.MarketTrend;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 
 /**

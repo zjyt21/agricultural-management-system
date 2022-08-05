@@ -2,15 +2,11 @@ package com.hlp.agrisys.controller;
 
 
 import com.hlp.agrisys.entity.AgriActivity;
-import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.service.IAgriActivityService;
 import com.hlp.agrisys.service.IUserService;
-import com.hlp.agrisys.service.impl.UserServiceImpl;
 import com.hlp.agrisys.vo.UserInfoVo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -75,5 +71,10 @@ public class AgriActivityController {
                            @RequestParam(defaultValue = "") String endDate)
     {
         return agriActivityService.getChart(crop, beginDate, endDate);
+    }
+
+    @GetMapping("dailyTask")
+    public Result getTask(){
+        return agriActivityService.getTask();
     }
 }

@@ -1,6 +1,5 @@
 package com.hlp.agrisys.controller;
 
-import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.User;
 import com.hlp.agrisys.service.IUserService;

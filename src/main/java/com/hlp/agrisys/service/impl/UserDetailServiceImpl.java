@@ -1,23 +1,15 @@
 package com.hlp.agrisys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.hlp.agrisys.entity.*;
-import com.hlp.agrisys.mapper.MenuMapper;
-import com.hlp.agrisys.mapper.RoleMapper;
-import com.hlp.agrisys.mapper.RoleMenuMapper;
+import com.hlp.agrisys.entity.LoginUser;
+import com.hlp.agrisys.entity.User;
 import com.hlp.agrisys.mapper.UserMapper;
-import com.hlp.agrisys.service.IMenuService;
-import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 /**

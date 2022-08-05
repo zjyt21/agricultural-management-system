@@ -21,7 +21,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:8080"); // 1 Set the access source address
+        corsConfiguration.addAllowedOrigin("*"); // 1 Set the access source address. http://localhost:8080
         corsConfiguration.addAllowedHeader("*"); // 2 Set the access source request header
         corsConfiguration.addAllowedMethod("*"); // 3 Set the access source request method
         corsConfiguration.setMaxAge(MAX_AGE);

@@ -1,9 +1,9 @@
 package com.hlp.agrisys.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hlp.agrisys.entity.Dict;
 import com.hlp.agrisys.mapper.DictMapper;
 import com.hlp.agrisys.service.IDictService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
