@@ -24,7 +24,7 @@
       // this.initMap()
       setTimeout(() => {
         this.initMap()
-      }, 20)
+      }, 0)
 
     },
   

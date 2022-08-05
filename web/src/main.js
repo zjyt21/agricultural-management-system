@@ -13,7 +13,7 @@ import * as VueGoogleMaps from "vue2-google-maps" // Import package
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyBpAr7_pXelgE3kw1WHDW37LgGjG6hiPgU",
-    libraries: "places"
+    libraries: "places",
   }
 });
 
