@@ -1,13 +1,35 @@
 <template>
   <div>
-    <div style="font-size: 8px; color: red; margin-bottom: 5px;">The map uses Google Maps, if you are a Chinese user, please use a VPN to view</div>
-    <div id="map" style="width: 100%; height: 550px;"></div>
+    <div style="font-size: 8px; color: red; margin-bottom: 10px;">If you are a Chinese user, please use a VPN to view</div>
+    <el-row>
+      <el-col :span="14">
+        <el-card style="width: 100%;">
+          <vue-weather
+            api-key="e726bc58550e9da951ceede76403afa7"
+            units="uk"
+            latitude="53.382349"
+            longitude="-1.481200"
+          />
+        </el-card>
+      </el-col>
+      <el-col :span="9" style="margin-left: 20px;">
+        <el-card>
+          hahaha
+        </el-card>
+      </el-col>
+    </el-row>
+      
+    <div id="map" style="width: 100%; height: 500px; margin-top: 15px;"></div>
   </div>
 </template>
 
 <script>
+  import VueWeather from "vue-weather-widget";
   export default {
     name: "Home",
+    components: {
+      VueWeather,
+    },
     data() {
       return {
         icons:{},
@@ -21,11 +43,9 @@
     },
  
     mounted(){
-      // this.initMap()
       setTimeout(() => {
-        this.initMap()
+        this.initMap();
       }, 0)
-
     },
   
     methods: {
@@ -41,7 +61,6 @@
             type: "farm",
           }
         ];
-        // const center = { lat: 53.382349, lng: -1.481200 };
         this.map = new google.maps.Map(document.getElementById("map"), {
           zoom: 18,
           center: this.center,
@@ -61,19 +80,12 @@
         this.infowindow = new google.maps.InfoWindow({
           content: this.contentString,
         });
-        // this.marker = new google.maps.Marker({
-        //   position: center,
-        //   map:this.map,
-        //   title: "JLGL Farm",
-        // });
-
         this.marker = new google.maps.Marker({
           position: this.features[0].position,
           icon: this.icons[this.features[0].type].icon,
           map: this.map,
         });
         
-
         this.marker.addListener("click", () => {
           this.infowindow.open({
             anchor: this.marker,
@@ -81,7 +93,7 @@
             shouldFocus: false,
           });
         });
-      }
+      },
     },
   }
   
