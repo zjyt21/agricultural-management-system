@@ -82,7 +82,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User user = getById(userId);
         //packaged into UserInfoVo
         UserInfoVo vo = BeanUtil.copyProperties(user, UserInfoVo.class);
-        System.out.println(vo.getPhonenumber());
         return new Result(200, vo);
     }
 
