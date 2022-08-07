@@ -2,7 +2,9 @@ package com.hlp.agrisys.mapper;
 
 import com.hlp.agrisys.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.hlp.agrisys.vo.UserPasswordVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * <p>
@@ -14,5 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
+    @Update("update user set password = #{newPassword} where username = #{username}")
+    int updatePassword(UserPasswordVo userPasswordVo);
 
 }

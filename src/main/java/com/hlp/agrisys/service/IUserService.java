@@ -3,6 +3,7 @@ package com.hlp.agrisys.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.User;
+import com.hlp.agrisys.vo.UserPasswordVo;
 
 /**
  * <p>
@@ -23,4 +24,6 @@ public interface IUserService extends IService<User> {
     Result updateUserInfo(User user);
 
     Result getUserPage(int currentPage, int pageSize, String username, String nickname, String email);
+
+    Result updatePassword(UserPasswordVo userPasswordVo);
 }

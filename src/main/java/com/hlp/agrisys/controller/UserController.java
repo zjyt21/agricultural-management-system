@@ -3,6 +3,7 @@ package com.hlp.agrisys.controller;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.User;
 import com.hlp.agrisys.service.IUserService;
+import com.hlp.agrisys.vo.UserPasswordVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +66,12 @@ public class UserController {
     @PostMapping("/batchDel")
     public Result batchDeleteMarketTrend(@RequestBody List<String> ids){
         return Result.success(iUserService.removeByIds(ids));
+    }
+
+    //update password
+    @PostMapping("/password")
+    public Result updatePassword(@RequestBody UserPasswordVo userPasswordVo){
+        return iUserService.updatePassword(userPasswordVo);
     }
 
 }
