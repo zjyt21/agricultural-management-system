@@ -41,7 +41,7 @@ public class MarketTrendController {
         return new Result(200, iMarketTrendService.removeById(id));
     }
 
-    //delete market information by id
+    //delete market information by ids
     @PostMapping("/batchDel")
     public Result batchDeleteMarketTrend(@RequestBody List<String> ids){
         return new Result(200, iMarketTrendService.removeByIds(ids));
