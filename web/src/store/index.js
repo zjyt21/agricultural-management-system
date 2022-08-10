@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-
+        curScore: 0
     },
     mutations: {
         logout() {
@@ -17,6 +17,9 @@ const store = new Vuex.Store({
 
             // 重置路由
             resetRouter()
+        },
+        GETSCORE(state, value){
+            state.curScore = value
         }
     }
 })

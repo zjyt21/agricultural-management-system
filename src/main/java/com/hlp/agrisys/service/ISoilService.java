@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ISoilService extends IService<Soil> {
 
     Result getSoilConditionPage(int currentPage, int pageSize, String beginDate, String endDate);
+
+    Result getChart(String beginDate, String endDate);
 }

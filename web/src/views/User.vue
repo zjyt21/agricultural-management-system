@@ -9,7 +9,6 @@
     </div>
 
     <div style="margin: 10px 0;">
-      <el-button type="primary" @click="handleAdd">Add <i class="el-icon-circle-plus-outline"></i></el-button>
       <el-popconfirm
         class="ml-5"
         confirm-button-text='DELETE'
@@ -167,10 +166,6 @@
         this.email = "",
         this.nickname = "",
         this.loadPage()
-      },
-      handleAdd(){
-        this.dialogFormVisible = true
-        this.form = {}
       },
       save(){
         this.request.post("/user", this.form).then(res => {

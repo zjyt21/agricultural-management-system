@@ -14,7 +14,7 @@
       </el-col>
       <el-col :span="9" style="margin-left: 20px;">
         <el-card>
-          hahaha
+          {{$store.state.curScore}}
         </el-card>
       </el-col>
     </el-row>

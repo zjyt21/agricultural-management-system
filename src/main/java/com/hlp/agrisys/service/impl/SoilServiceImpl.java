@@ -4,12 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.entity.Soil;
 import com.hlp.agrisys.mapper.SoilMapper;
 import com.hlp.agrisys.service.ISoilService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -21,6 +26,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SoilServiceImpl extends ServiceImpl<SoilMapper, Soil> implements ISoilService {
+    @Autowired
+    private SoilMapper soilMapper;
 
     @Override
     public Result getSoilConditionPage(int currentPage, int pageSize, String beginDate, String endDate) {
@@ -34,5 +41,14 @@ public class SoilServiceImpl extends ServiceImpl<SoilMapper, Soil> implements IS
             return getSoilConditionPage((int)page.getPages(), pageSize, beginDate, endDate);
         }
         return Result.success(page);
+    }
+
+    @Override
+    public Result getChart(String beginDate, String endDate) {
+        LambdaQueryWrapper<Soil> lqw = new LambdaQueryWrapper<>();
+        lqw.between(StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate), Soil::getDate, beginDate, endDate);
+        lqw.orderByDesc(Soil::getDate);
+        List<Soil> soils = soilMapper.selectList(lqw);
+        return Result.success(soils);
     }
 }

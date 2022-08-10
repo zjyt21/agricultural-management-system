@@ -19,7 +19,7 @@
     
     <el-row :gutter="10" style="margin-bottom: 40px;">
       <el-col :span="24" >
-        <el-card id="price" style="height: 500px;" class="chart"></el-card>
+        <el-card id="score" style="height: 500px;" class="chart"></el-card>
       </el-col>
     </el-row>
 
@@ -211,6 +211,10 @@
         },
 
         chartDateVal:[],
+        scoreChartDom:{},
+        scoreChart:{},
+        scoreOption:{},
+
 
         dateVal:[],
         pickerOptions: {
@@ -292,7 +296,9 @@
             if(this.currentPage > maxPage){
               this.currentPage = maxPage
             }
+            this.getChart()
           })
+        
       },
       handleSizeChange(pageSize){
         this.pageSize = pageSize
@@ -364,231 +370,112 @@
         this.dialogFormVisible = false
         this.$message.warning("Form submission canceled")
       },
-      // getChart() {
-      //   var priceChartDom = document.getElementById('price');
-      //   var priceChart = echarts.init(priceChartDom);
+      getChart() {
+        this.scoreChartDom = document.getElementById('score');
+        this.scoreChart = echarts.init(this.scoreChartDom);
 
-      //   var trendChartDom = document.getElementById('trend');
-      //   var trendChart = echarts.init(trendChartDom);
-
-      //   var priceOption = {
-      //     title: {
-      //       text: 'Unit Price of Crops',
-      //       left: 'center',
-      //       textStyle:{
-      //         fontStyle:'normal',
-      //         fontWeight:'bold',
-      //         fontFamily:'Arial',
-      //         fontSize:25
-      //       }
-      //     },
-      //     tooltip: {
-      //       trigger: 'item',
-      //       axisPointer: {
-      //         type: 'cross'
-      //       }
-      //     },
-      //     legend: {
-      //       orient: 'horizontal',
-      //       x: 'center',
-      //       y: 'bottom'
-      //     },
-      //     grid: {
-      //       left: '5%',
-      //       right: '7%',
-      //       top:'15%',
-      //       bottom: '12%',
-      //       containLabel: true
-      //     },
-      //     toolbox: {
-      //         show: true,
-      //         //toolbox的配置项
-      //         feature: {
-      //             //辅助线的开关
-      //             mark: { show: true },
-      //             //动态类型切换
-      //             magicType: {
-      //                 show: true,
-      //                 //line为折线图，bar为柱状图
-      //                 type: ['line', 'bar']
-      //             },
-      //             //将图标保存为图片
-      //             saveAsImage: { show: true }
-      //         }
-      //     },
-      //     calculable: true,
-      //     xAxis: {
-      //       name: 'Date',
-      //       type: 'time',
+        this.scoreOption = {
+          title: {
+            text: 'Soil Condition Score Record',
+            left: 'center',
+            textStyle:{
+              fontStyle:'normal',
+              fontWeight:'bold',
+              fontFamily:'Arial',
+              fontSize:25
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'cross'
+            }
+          },
+          legend: {
+            orient: 'horizontal',
+            x: 'center',
+            y: 'bottom'
+          },
+          grid: {
+            left: '5%',
+            right: '7%',
+            top:'15%',
+            bottom: '12%',
+            containLabel: true
+          },
+          toolbox: {
+              show: true,
+              //toolbox的配置项
+              feature: {
+                  //辅助线的开关
+                  mark: { show: true },
+                  //动态类型切换
+                  magicType: {
+                      show: true,
+                      //line为折线图，bar为柱状图
+                      type: ['line', 'bar']
+                  },
+                  //将图标保存为图片
+                  saveAsImage: { show: true }
+              }
+          },
+          calculable: true,
+          xAxis: {
+            name: 'Date',
+            type: 'time',
             
-      //       //数值起始和结束两端空白策略
-      //       // boundaryGap: false,
-      //       axisLabel: {        
-      //           show: true,
-      //           textStyle: {
-      //               color: 'green',
-      //               fontSize:'13',
-      //               fontWeight:'bold'
-      //           }
-      //       },
-      //       axisLine:{
-      //         lineStyle:{
-      //           color:'black',
-      //           width:2,
-      //         }
-      //       },
-      //     },
-      //     yAxis: {
-      //       name: 'Price (GBP per ton)',
-      //       type: 'value',  
-      //       // splitLine: {
-      //       //     lineStyle: {
-      //       //       color: ['#eee']
-      //       //     }
-      //       // },
-      //       axisLabel: {        
-      //           show: true,
-      //           textStyle: {
-      //               color: 'black',
-      //               fontSize:'10',
-      //           }
-      //       },
-      //       axisLine:{
-      //         lineStyle:{
-      //           color:'black',
-      //           width:2,
-      //         }
-      //       }      
-      //     },
-      //     series: [
-      //       { name: 'paddy', data: [], type: 'line'},
-      //       { name: 'potato', data: [], type: 'line'},
-      //       { name: 'soybean', data: [], type: 'line'},
-      //       { name: 'peanut', data: [], type: 'line'},
-      //       { name: 'wheat', data: [], type: 'line'},
-      //       { name: 'barley', data: [], type: 'line'},
-      //     ]
-      //   };
+            //数值起始和结束两端空白策略
+            // boundaryGap: false,
+            axisLabel: {        
+                show: true,
+                textStyle: {
+                    color: 'green',
+                    fontSize:'13',
+                    fontWeight:'bold'
+                }
+            },
+            axisLine:{
+              lineStyle:{
+                color:'black',
+                width:2,
+              }
+            },
+          },
+          yAxis: {
+            name: 'Score',
+            type: 'value',
+            axisLabel: {        
+                show: true,
+                textStyle: {
+                    color: 'black',
+                    fontSize:'10',
+                }
+            },
+            axisLine:{
+              lineStyle:{
+                color:'black',
+                width:2,
+              }
+            }      
+          },
+          series: [
+            { name: 'score', data: [], type: 'line'},
+          ]
+        };
 
-      //   var trendOption = {
-      //     title: {
-      //       text: 'Demand and Production Comparison',
-      //       subtext: 'demand minus supply (local market)',
-      //       left: 'center',
-      //       textStyle:{
-      //         fontStyle:'normal',
-      //         fontWeight:'bold',
-      //         fontFamily:'Arial',
-      //         fontSize:25
-      //       }
-      //     },
-      //     tooltip: {
-      //       trigger: 'item',
-      //       axisPointer: {
-      //         type: 'cross'
-      //       }
-      //     },
-      //     legend: {
-      //       orient: 'horizontal',
-      //       x: 'center',
-      //       y: 'bottom',
-      //     },
-      //     grid: {
-      //       left: '6%',
-      //       right: '7%',
-      //       top:'20%',
-      //       bottom: '12%',
-      //       containLabel: true
-      //     },
-      //     toolbox: {
-      //         show: true,
-      //         //toolbox的配置项
-      //         feature: {
-      //             //辅助线的开关
-      //             mark: { show: true },
-      //             //动态类型切换
-      //             magicType: {
-      //                 show: true,
-      //                 //line为折线图，bar为柱状图
-      //                 type: ['line', 'bar']
-      //             },
-      //             //将图标保存为图片
-      //             saveAsImage: { show: true }
-      //         }
-      //     },
-      //     calculable: true,
-      //     xAxis: {
-      //       name: 'Date',
-      //       type: 'time',
-      //       //数值起始和结束两端空白策略
-      //       boundaryGap: false,
-      //       axisLabel: {        
-      //           show: true,
-      //           textStyle: {
-      //               color: 'green',
-      //               fontSize:'13',
-      //               fontWeight:'bold'
-      //           }
-      //       },
-      //       axisLine:{
-      //         lineStyle:{
-      //           color:'black',
-      //           width:2,   //这里是坐标轴的宽度,可以去掉
-      //         }
-      //       }
-      //     },
-      //     yAxis: {
-      //       name: 'Quantity (10000 tons)',
-      //       type: 'value',
-      //       axisLabel: {        
-      //           show: true,
-      //           textStyle: {
-      //               color: 'black',
-      //               fontSize:'10'
-      //           }
-      //       },
-      //       axisLine:{
-      //         lineStyle:{
-      //           color:'black',
-      //           width:2,
-      //         }
-      //       }
-      //     },
-      //     series: [
-      //       { name: 'paddy', data: [], type: 'line'},
-      //       { name: 'potato', data: [], type: 'line'},
-      //       { name: 'soybean', data: [], type: 'line'},
-      //       { name: 'peanut', data: [], type: 'line'},
-      //       { name: 'wheat', data: [], type: 'line'},
-      //       { name: 'barley', data: [], type: 'line'},
-      //     ]
-      //   };
-      //   this.request.get("/soil/chart", {
-      //       params:{
-      //         beginDate: this.chartDateVal[0],
-      //         endDate: this.chartDateVal[1],
-      //       }
-      //   }).then(res => {
-      //     priceOption.series[0].data = res.data[0].map(v => [v.date, v.unitPrice])
-      //     priceOption.series[1].data = res.data[1].map(v => [v.date, v.unitPrice])
-      //     priceOption.series[2].data = res.data[2].map(v => [v.date, v.unitPrice])
-      //     priceOption.series[3].data = res.data[3].map(v => [v.date, v.unitPrice])
-      //     priceOption.series[4].data = res.data[4].map(v => [v.date, v.unitPrice])
-      //     priceOption.series[5].data = res.data[5].map(v => [v.date, v.unitPrice])
+        this.request.get("/soil/chart", {
+            params:{
+              beginDate: this.chartDateVal[0],
+              endDate: this.chartDateVal[1],
+            }
+        }).then(res => {
+          console.log(res)
+          this.scoreOption.series[0].data = res.data.map(v => [v.date, v.score])
+          this.scoreChart.setOption(this.scoreOption);
 
-      //     trendOption.series[0].data = res.data[0].map(v => [v.date, v.demand - v.supply])
-      //     trendOption.series[1].data = res.data[1].map(v => [v.date, v.demand - v.supply])
-      //     trendOption.series[2].data = res.data[2].map(v => [v.date, v.demand - v.supply])
-      //     trendOption.series[3].data = res.data[3].map(v => [v.date, v.demand - v.supply])
-      //     trendOption.series[4].data = res.data[4].map(v => [v.date, v.demand - v.supply])
-      //     trendOption.series[5].data = res.data[5].map(v => [v.date, v.demand - v.supply])
-
-
-      //     priceChart.setOption(priceOption);
-      //     trendChart.setOption(trendOption);
-      //   })
-       
-      // },
+          this.$store.commit('GETSCORE', res.data[0].score)
+        })
+      },
     },
   }
 </script>

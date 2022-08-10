@@ -97,4 +97,12 @@ public class SoilController {
 
         return score;
     }
+
+    //echarts data
+    @GetMapping("/chart")
+    public Result getChart(@RequestParam(defaultValue = "") String beginDate,
+                           @RequestParam(defaultValue = "") String endDate)
+    {
+        return soilService.getChart(beginDate, endDate);
+    }
 }
