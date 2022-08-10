@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        curScore: 0
+        curScore: 86
     },
     mutations: {
         logout() {
