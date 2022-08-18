@@ -68,7 +68,7 @@
       initMap() {
         this.icons = {
           farm: {
-            icon: "http://rf6jnyisc.bkt.clouddn.com/2022/08/0578e7e2322fd44c289a4ba09823306018.png",
+            icon: "http://rgto2ucce.bkt.clouddn.com/2022/08/18b51117b8e0134d988c667bf44eaa3cbb.png",
           },
         };
         this.features = [
