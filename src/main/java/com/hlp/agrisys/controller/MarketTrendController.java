@@ -1,6 +1,7 @@
 package com.hlp.agrisys.controller;
 
 
+import com.hlp.agrisys.entity.AgriActivity;
 import com.hlp.agrisys.entity.MarketTrend;
 import com.hlp.agrisys.entity.Result;
 import com.hlp.agrisys.service.IMarketTrendService;
@@ -56,6 +57,14 @@ public class MarketTrendController {
                              @RequestParam(defaultValue = "") String endDate)
     {
         return iMarketTrendService.getMarketPage(currentPage, pageSize, crop, beginDate, endDate);
+    }
+
+    @PostMapping("/batchSave")
+    public Result batchSaveOrUpdateMarket(@RequestBody List<MarketTrend> marketTrends) {
+        for(MarketTrend m : marketTrends){
+            iMarketTrendService.save(m);
+        }
+        return Result.success();
     }
 
     //echarts data

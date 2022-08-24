@@ -24,7 +24,8 @@
       </el-col>
     </el-row>
       
-    <div id="map" style="width: 100%; height: 500px; margin-top: 15px;"></div>
+    <div id="map" style="width: 100%; height: 480px; margin-top: 15px;"></div>
+    <div style="font-size: 6px; text-align: center; margin-top: 5px;">苏ICP备2022033904号 http://beian.miit.gov.cn/</div> 
   </div>
 </template>
 
@@ -68,7 +69,7 @@
       initMap() {
         this.icons = {
           farm: {
-            icon: "http://rgto2ucce.bkt.clouddn.com/2022/08/18b51117b8e0134d988c667bf44eaa3cbb.png",
+            icon: "http://abc.jlglfarm.space/2022/08/248de822eea2604ee5a8ff3dcc697d2746.png",
           },
         };
         this.features = [

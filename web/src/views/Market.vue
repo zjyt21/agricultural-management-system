@@ -89,11 +89,11 @@
       </el-table-column>
       <el-table-column prop="crop" label="Crop" width="150">
       </el-table-column>
-      <el-table-column prop="unitPrice" label="Unit Price (GBP per ton)" sortable>
+      <el-table-column prop="unitPrice" label="Unit Price (USD/cwt)" sortable>
       </el-table-column>
-      <el-table-column prop="supply" label="Supply (10,000 tons)" >
+      <el-table-column prop="supply" label="Supply (10,000 cwt)" >
       </el-table-column>
-      <el-table-column prop="demand" label="Demand (10,000 tons)" >
+      <el-table-column prop="demand" label="Demand (10,000 cwt)" >
       </el-table-column>
       <el-table-column prop="option" label="Operation" width="200">
         <template slot-scope="scope">
@@ -148,15 +148,15 @@
             type="number" 
             v-model.number="form.unitPrice" 
             autocomplete="off" 
-            placeholder="(GBP per ton)"
+            placeholder="(USD/cwt)"
             onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
           </el-input>
         </el-form-item>
         <el-form-item label="Supply">
-          <el-input type="number" v-model.number="form.supply" autocomplete="off" placeholder="(in 10,000 tons)" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input>
+          <el-input type="number" v-model.number="form.supply" autocomplete="off" placeholder="(in 10,000 cwt)" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input>
         </el-form-item>
         <el-form-item label="Demand">
-          <el-input type="number" v-model.number="form.demand" autocomplete="off" placeholder="(in 10,000 tons)" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input>
+          <el-input type="number" v-model.number="form.demand" autocomplete="off" placeholder="(in 10,000 cwt)" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -419,7 +419,7 @@
             },
           },
           yAxis: {
-            name: 'Price (GBP per ton)',
+            name: 'Price (USD/cwt)',
             type: 'value',  
             // splitLine: {
             //     lineStyle: {
@@ -518,7 +518,7 @@
             }
           },
           yAxis: {
-            name: 'Quantity (10000 tons)',
+            name: 'Quantity (10000 cwt)',
             type: 'value',
             axisLabel: {        
                 show: true,
